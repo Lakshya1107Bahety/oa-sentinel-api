@@ -86,7 +86,7 @@ def analyze():
         # Perform screening
         screening = screen_trials(df, reference)
 
-        # Save patient record
+               # Save patient record
         record = append_patient_to_excel(
             patient,
             screening,
@@ -96,6 +96,15 @@ def analyze():
         return jsonify({
             "success": True,
             "patient_id": record["patient_id"],
+
+            # Fields Flutter expects
+            "oa_probability": round(100 - record["screening_score"], 1),
+            "risk_level": record["screening_level"],
+            "knee_stability": round(record["screening_score"], 1),
+            "balance_score": round(record["screening_score"], 1),
+            "symmetry": round(100 - record["abnormal_trial_rate_pct"], 1),
+
+            # Existing fields
             "screening_level": record["screening_level"],
             "screening_score": record["screening_score"],
             "trials_analyzed": record["trials_analyzed"],
@@ -104,13 +113,6 @@ def analyze():
             "main_findings": record["main_findings"],
             "note": record["screening_note"]
         }), 200
-
-    except Exception as e:
-        return jsonify({
-            "success": False,
-            "error": str(e)
-        }), 500
-
 
 # -----------------------------
 # Run Locally
