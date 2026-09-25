@@ -1,0 +1,360 @@
+{
+  "created_at": "2026-09-24T23:26:04",
+  "source": "C:\\OA SENTINEL\\OUTPUT\\camera_results.csv",
+  "n_reference_participants": 49,
+  "method": {
+    "mean_biomechanical_score_weight": 0.7,
+    "abnormal_trial_rate_weight": 0.3,
+    "low_upper_percentile": 90.0,
+    "moderate_upper_percentile": 97.5
+  },
+  "thresholds": {
+    "p90": 88.81632653061226,
+    "p97_5": 96.3673469387755
+  },
+  "reference_participants": [
+    {
+      "participant_id": 1,
+      "mean_biomechanical_score": 0.03789367360701011,
+      "abnormal_trial_rate": 0.2,
+      "screening_score": 65.91836734693877,
+      "trials": 65
+    },
+    {
+      "participant_id": 2,
+      "mean_biomechanical_score": 0.03309581755982437,
+      "abnormal_trial_rate": 0.3064516129032258,
+      "screening_score": 75.30612244897958,
+      "trials": 62
+    },
+    {
+      "participant_id": 3,
+      "mean_biomechanical_score": 0.012958582786965508,
+      "abnormal_trial_rate": 0.4,
+      "screening_score": 91.63265306122449,
+      "trials": 60
+    },
+    {
+      "participant_id": 4,
+      "mean_biomechanical_score": 0.05829931469764822,
+      "abnormal_trial_rate": 0.09836065573770492,
+      "screening_score": 33.265306122448976,
+      "trials": 61
+    },
+    {
+      "participant_id": 5,
+      "mean_biomechanical_score": 0.019618393002814975,
+      "abnormal_trial_rate": 0.3709677419354839,
+      "screening_score": 85.51020408163265,
+      "trials": 62
+    },
+    {
+      "participant_id": 6,
+      "mean_biomechanical_score": 0.015555067925145391,
+      "abnormal_trial_rate": 0.3582089552238806,
+      "screening_score": 86.3265306122449,
+      "trials": 67
+    },
+    {
+      "participant_id": 7,
+      "mean_biomechanical_score": 0.03937995610397047,
+      "abnormal_trial_rate": 0.20967741935483872,
+      "screening_score": 65.10204081632654,
+      "trials": 62
+    },
+    {
+      "participant_id": 8,
+      "mean_biomechanical_score": 0.015101859184165864,
+      "abnormal_trial_rate": 0.38333333333333336,
+      "screening_score": 88.9795918367347,
+      "trials": 60
+    },
+    {
+      "participant_id": 9,
+      "mean_biomechanical_score": 0.040010723489489634,
+      "abnormal_trial_rate": 0.18333333333333332,
+      "screening_score": 60.0,
+      "trials": 60
+    },
+    {
+      "participant_id": 10,
+      "mean_biomechanical_score": 0.055235694860175724,
+      "abnormal_trial_rate": 0.046875,
+      "screening_score": 35.30612244897959,
+      "trials": 64
+    },
+    {
+      "participant_id": 12,
+      "mean_biomechanical_score": 0.024567317938631445,
+      "abnormal_trial_rate": 0.23333333333333334,
+      "screening_score": 77.75510204081633,
+      "trials": 60
+    },
+    {
+      "participant_id": 13,
+      "mean_biomechanical_score": 0.051164086138159856,
+      "abnormal_trial_rate": 0.11666666666666667,
+      "screening_score": 46.12244897959184,
+      "trials": 60
+    },
+    {
+      "participant_id": 15,
+      "mean_biomechanical_score": 0.024750882006959726,
+      "abnormal_trial_rate": 0.25,
+      "screening_score": 76.93877551020408,
+      "trials": 64
+    },
+    {
+      "participant_id": 16,
+      "mean_biomechanical_score": 0.047867549491332935,
+      "abnormal_trial_rate": 0.109375,
+      "screening_score": 46.53061224489796,
+      "trials": 64
+    },
+    {
+      "participant_id": 17,
+      "mean_biomechanical_score": 0.0009032582790882537,
+      "abnormal_trial_rate": 0.4,
+      "screening_score": 97.3469387755102,
+      "trials": 60
+    },
+    {
+      "participant_id": 18,
+      "mean_biomechanical_score": 0.0378500303737731,
+      "abnormal_trial_rate": 0.14754098360655737,
+      "screening_score": 62.44897959183674,
+      "trials": 61
+    },
+    {
+      "participant_id": 19,
+      "mean_biomechanical_score": 0.04335491057229894,
+      "abnormal_trial_rate": 0.11290322580645161,
+      "screening_score": 52.65306122448979,
+      "trials": 62
+    },
+    {
+      "participant_id": 20,
+      "mean_biomechanical_score": 0.037608434703476114,
+      "abnormal_trial_rate": 0.19047619047619047,
+      "screening_score": 66.93877551020408,
+      "trials": 63
+    },
+    {
+      "participant_id": 21,
+      "mean_biomechanical_score": 0.012322719589174923,
+      "abnormal_trial_rate": 0.3114754098360656,
+      "screening_score": 88.77551020408164,
+      "trials": 61
+    },
+    {
+      "participant_id": 22,
+      "mean_biomechanical_score": 0.04975515207948915,
+      "abnormal_trial_rate": 0.08064516129032258,
+      "screening_score": 42.04081632653061,
+      "trials": 62
+    },
+    {
+      "participant_id": 23,
+      "mean_biomechanical_score": 0.00735254259149577,
+      "abnormal_trial_rate": 0.5081967213114754,
+      "screening_score": 95.71428571428571,
+      "trials": 61
+    },
+    {
+      "participant_id": 24,
+      "mean_biomechanical_score": 0.0826557567785198,
+      "abnormal_trial_rate": 0.03333333333333333,
+      "screening_score": 11.224489795918366,
+      "trials": 60
+    },
+    {
+      "participant_id": 25,
+      "mean_biomechanical_score": 0.09114956264366646,
+      "abnormal_trial_rate": 0.0,
+      "screening_score": 3.877551020408165,
+      "trials": 77
+    },
+    {
+      "participant_id": 26,
+      "mean_biomechanical_score": 0.06917970896746713,
+      "abnormal_trial_rate": 0.1,
+      "screening_score": 27.346938775510207,
+      "trials": 60
+    },
+    {
+      "participant_id": 27,
+      "mean_biomechanical_score": 0.07453900561008352,
+      "abnormal_trial_rate": 0.03278688524590164,
+      "screening_score": 17.755102040816325,
+      "trials": 61
+    },
+    {
+      "participant_id": 28,
+      "mean_biomechanical_score": 0.05377437413514588,
+      "abnormal_trial_rate": 0.15,
+      "screening_score": 45.91836734693877,
+      "trials": 60
+    },
+    {
+      "participant_id": 29,
+      "mean_biomechanical_score": 0.06303690519306836,
+      "abnormal_trial_rate": 0.08196721311475409,
+      "screening_score": 29.795918367346935,
+      "trials": 61
+    },
+    {
+      "participant_id": 30,
+      "mean_biomechanical_score": 0.06952168936978581,
+      "abnormal_trial_rate": 0.07936507936507936,
+      "screening_score": 22.857142857142854,
+      "trials": 63
+    },
+    {
+      "participant_id": 31,
+      "mean_biomechanical_score": 0.03334378312712793,
+      "abnormal_trial_rate": 0.31666666666666665,
+      "screening_score": 75.71428571428571,
+      "trials": 60
+    },
+    {
+      "participant_id": 32,
+      "mean_biomechanical_score": 0.06355496825023116,
+      "abnormal_trial_rate": 0.07692307692307693,
+      "screening_score": 26.530612244897956,
+      "trials": 65
+    },
+    {
+      "participant_id": 33,
+      "mean_biomechanical_score": 0.04241250503115637,
+      "abnormal_trial_rate": 0.22950819672131148,
+      "screening_score": 61.428571428571416,
+      "trials": 61
+    },
+    {
+      "participant_id": 34,
+      "mean_biomechanical_score": 0.022284265770016173,
+      "abnormal_trial_rate": 0.31666666666666665,
+      "screening_score": 82.85714285714285,
+      "trials": 60
+    },
+    {
+      "participant_id": 35,
+      "mean_biomechanical_score": 0.05819841632228082,
+      "abnormal_trial_rate": 0.1111111111111111,
+      "screening_score": 37.755102040816325,
+      "trials": 63
+    },
+    {
+      "participant_id": 36,
+      "mean_biomechanical_score": 0.041858689537423485,
+      "abnormal_trial_rate": 0.2,
+      "screening_score": 61.63265306122448,
+      "trials": 60
+    },
+    {
+      "participant_id": 37,
+      "mean_biomechanical_score": 0.04399878449688773,
+      "abnormal_trial_rate": 0.19047619047619047,
+      "screening_score": 55.51020408163265,
+      "trials": 63
+    },
+    {
+      "participant_id": 38,
+      "mean_biomechanical_score": 0.05720972560618381,
+      "abnormal_trial_rate": 0.1,
+      "screening_score": 37.3469387755102,
+      "trials": 60
+    },
+    {
+      "participant_id": 39,
+      "mean_biomechanical_score": 0.06293249265035246,
+      "abnormal_trial_rate": 0.046875,
+      "screening_score": 28.163265306122447,
+      "trials": 64
+    },
+    {
+      "participant_id": 40,
+      "mean_biomechanical_score": 0.030135419707785063,
+      "abnormal_trial_rate": 0.2833333333333333,
+      "screening_score": 76.12244897959184,
+      "trials": 60
+    },
+    {
+      "participant_id": 41,
+      "mean_biomechanical_score": 0.044937893345722915,
+      "abnormal_trial_rate": 0.2,
+      "screening_score": 55.91836734693877,
+      "trials": 60
+    },
+    {
+      "participant_id": 42,
+      "mean_biomechanical_score": 0.09208650983023757,
+      "abnormal_trial_rate": 0.0,
+      "screening_score": 2.4489795918367347,
+      "trials": 64
+    },
+    {
+      "participant_id": 43,
+      "mean_biomechanical_score": 0.07507366364631353,
+      "abnormal_trial_rate": 0.058823529411764705,
+      "screening_score": 18.775510204081627,
+      "trials": 68
+    },
+    {
+      "participant_id": 44,
+      "mean_biomechanical_score": 0.06531421645512335,
+      "abnormal_trial_rate": 0.1111111111111111,
+      "screening_score": 30.612244897959187,
+      "trials": 63
+    },
+    {
+      "participant_id": 45,
+      "mean_biomechanical_score": 0.07806434067417278,
+      "abnormal_trial_rate": 0.031746031746031744,
+      "screening_score": 12.857142857142858,
+      "trials": 63
+    },
+    {
+      "participant_id": 46,
+      "mean_biomechanical_score": 0.0553404645037574,
+      "abnormal_trial_rate": 0.16129032258064516,
+      "screening_score": 43.6734693877551,
+      "trials": 62
+    },
+    {
+      "participant_id": 47,
+      "mean_biomechanical_score": 0.08617799170820542,
+      "abnormal_trial_rate": 0.01639344262295082,
+      "screening_score": 6.530612244897962,
+      "trials": 61
+    },
+    {
+      "participant_id": 48,
+      "mean_biomechanical_score": 0.08329918974690172,
+      "abnormal_trial_rate": 0.016129032258064516,
+      "screening_score": 7.3469387755102,
+      "trials": 62
+    },
+    {
+      "participant_id": 49,
+      "mean_biomechanical_score": 0.07669400232224384,
+      "abnormal_trial_rate": 0.0,
+      "screening_score": 12.448979591836736,
+      "trials": 10
+    },
+    {
+      "participant_id": 50,
+      "mean_biomechanical_score": 0.08180416991800989,
+      "abnormal_trial_rate": 0.0,
+      "screening_score": 9.591836734693878,
+      "trials": 67
+    },
+    {
+      "participant_id": 51,
+      "mean_biomechanical_score": 0.007093775687218713,
+      "abnormal_trial_rate": 0.46875,
+      "screening_score": 96.53061224489795,
+      "trials": 64
+    }
+  ]
+}
