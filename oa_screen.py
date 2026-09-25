@@ -382,48 +382,30 @@ def screen_trials(
     else:
         level = "HIGH"
 
-   # --------------------------------------------------------
-# Explainability: identify unusual measurements.
-# These explanations DO NOT alter the screening score.
-# --------------------------------------------------------
+    # --------------------------------------------------------
+    # Explainability: identify unusual measurements.
+    # These explanations DO NOT alter the screening score.
+    # --------------------------------------------------------
 
-# On Render, use the camera_results.csv stored in this repository
-reference_csv = Path(__file__).parent / "camera_results.csv"
+    # On Render, use the camera_results.csv stored in this repository
+    reference_csv = Path(__file__).parent / "camera_results.csv"
 
-if not reference_csv.exists():
-    raise FileNotFoundError(
-        f"camera_results.csv not found at {reference_csv}"
-    )
+    if not reference_csv.exists():
+        raise FileNotFoundError(
+            f"camera_results.csv not found at {reference_csv}"
+        )
 
-reference_full = pd.read_csv(reference_csv)
+    reference_full = pd.read_csv(reference_csv)
 
-reasons = []
+    reasons = []
 
     for feature, label in [
-        (
-            "knee_rom_asymmetry_pct",
-            "knee ROM asymmetry"
-        ),
-        (
-            "step_time_asymmetry_pct",
-            "step-time asymmetry"
-        ),
-        (
-            "trunk_lean_deg",
-            "trunk lean"
-        ),
-        (
-            "cadence_steps_min",
-            "cadence"
-        ),
-        (
-            "right_knee_rom_deg",
-            "right knee ROM"
-        ),
-        (
-            "left_knee_rom_deg",
-            "left knee ROM"
-        ),
+        ("knee_rom_asymmetry_pct", "knee ROM asymmetry"),
+        ("step_time_asymmetry_pct", "step-time asymmetry"),
+        ("trunk_lean_deg", "trunk lean"),
+        ("cadence_steps_min", "cadence"),
+        ("right_knee_rom_deg", "right knee ROM"),
+        ("left_knee_rom_deg", "left knee ROM"),
     ]:
 
         healthy = pd.to_numeric(
