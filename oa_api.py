@@ -1,6 +1,6 @@
 """
 OA SENTINEL — oa_api.py
-Simple Flask backend.
+JointCare Flask Backend for OA Screening
 """
 
 from pathlib import Path
@@ -13,51 +13,85 @@ from oa_screen import (
     append_patient_to_excel,
 )
 
+# -----------------------------
+# Flask App
+# -----------------------------
 app = Flask(__name__)
 
+# Base paths
 BASE = Path(__file__).parent
 REFERENCE_FILE = BASE / "oa_healthy_reference.json"
 PATIENT_EXCEL = BASE / "OA_Sentinel_Patient_Records.xlsx"
 
+# -----------------------------
+# Home Route
+# -----------------------------
+@app.route("/", methods=["GET"])
+def home():
+    return jsonify({
+        "status": "running",
+        "service": "JointCare OA Sentinel API",
+        "message": "API is live",
+        "version": "1.0"
+    }), 200
 
+
+# -----------------------------
+# Health Check Route
+# -----------------------------
 @app.route("/health", methods=["GET"])
 def health():
     return jsonify({
         "status": "ok",
-        "service": "OA Sentinel"
-    })
+        "service": "JointCare OA Sentinel API"
+    }), 200
 
 
+# -----------------------------
+# OA Analysis Endpoint
+# -----------------------------
 @app.route("/analyze", methods=["POST"])
 def analyze():
+
     payload = request.get_json(silent=True)
 
-    if not payload:
+    if payload is None:
         return jsonify({
             "success": False,
-            "error": "JSON body required"
+            "error": "JSON request body required."
         }), 400
 
     patient = payload.get("patient", {})
     camera_results = payload.get("camera_results", [])
 
-    if not camera_results:
+    if len(camera_results) == 0:
         return jsonify({
             "success": False,
-            "error": "camera_results is empty"
+            "error": "camera_results is empty."
         }), 400
 
     if not REFERENCE_FILE.exists():
         return jsonify({
             "success": False,
-            "error": "Healthy reference file not found"
+            "error": "Healthy reference file not found."
         }), 500
 
     try:
+        # Load healthy reference
         reference = load_reference(REFERENCE_FILE)
+
+        # Convert incoming camera data to dataframe
         df = pd.DataFrame(camera_results)
+
+        # Perform screening
         screening = screen_trials(df, reference)
-        record = append_patient_to_excel(patient, screening, PATIENT_EXCEL)
+
+        # Save patient record
+        record = append_patient_to_excel(
+            patient,
+            screening,
+            PATIENT_EXCEL
+        )
 
         return jsonify({
             "success": True,
@@ -69,7 +103,7 @@ def analyze():
             "abnormal_trial_rate_pct": record["abnormal_trial_rate_pct"],
             "main_findings": record["main_findings"],
             "note": record["screening_note"]
-        })
+        }), 200
 
     except Exception as e:
         return jsonify({
@@ -78,8 +112,13 @@ def analyze():
         }), 500
 
 
+# -----------------------------
+# Run Locally
+# -----------------------------
 if __name__ == "__main__":
-    print("Starting OA Sentinel API...")
-    print("Health check: http://127.0.0.1:5000/health")
-    print("Analysis API: http://127.0.0.1:5000/analyze")
+    print("Starting JointCare OA Sentinel API...")
+    print("Home   : http://127.0.0.1:5000/")
+    print("Health : http://127.0.0.1:5000/health")
+    print("Analyze: http://127.0.0.1:5000/analyze")
+
     app.run(host="0.0.0.0", port=5000, debug=False)
