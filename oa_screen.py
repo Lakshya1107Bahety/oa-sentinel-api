@@ -382,16 +382,22 @@ def screen_trials(
     else:
         level = "HIGH"
 
-    # --------------------------------------------------------
-    # Explainability: identify unusual measurements.
-    # These explanations DO NOT alter the screening score.
-    # --------------------------------------------------------
+   # --------------------------------------------------------
+# Explainability: identify unusual measurements.
+# These explanations DO NOT alter the screening score.
+# --------------------------------------------------------
 
-    reference_full = pd.read_csv(
-        reference["source"]
+# On Render, use the camera_results.csv stored in this repository
+reference_csv = Path(__file__).parent / "camera_results.csv"
+
+if not reference_csv.exists():
+    raise FileNotFoundError(
+        f"camera_results.csv not found at {reference_csv}"
     )
 
-    reasons = []
+reference_full = pd.read_csv(reference_csv)
+
+reasons = []
 
     for feature, label in [
         (
