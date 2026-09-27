@@ -4,10 +4,13 @@ JointCare Flask Backend for OA Screening
 """
 
 from pathlib import Path
+import joblib
+import numpy as np
 import pandas as pd
 from flask import Flask, request, jsonify
 
 from oa_screen import (
+    FEATURES,
     load_reference,
     screen_trials,
     append_patient_to_excel,
@@ -22,6 +25,50 @@ app = Flask(__name__)
 BASE = Path(__file__).parent
 REFERENCE_FILE = BASE / "oa_healthy_reference.json"
 PATIENT_EXCEL = BASE / "OA_Sentinel_Patient_Records.xlsx"
+MODEL_FILE = BASE / "camera_biomechanics_model.pkl"
+
+# Isolation Forest pipeline (imputer -> scaler -> IsolationForest).
+# Loaded once at startup; must match the scikit-learn version it was trained with.
+MODEL = joblib.load(MODEL_FILE)
+
+
+def score_trials(df):
+    """
+    Run the camera biomechanics model on the incoming trials.
+
+    Any client-supplied biomechanical_prediction / biomechanical_score
+    values are overwritten: the server is the source of truth.
+    """
+    df = df.copy()
+
+    missing = [f for f in FEATURES if f not in df.columns]
+    if missing:
+        raise ValueError(
+            "camera_results is missing features: " + ", ".join(missing)
+        )
+
+    X = df[FEATURES].apply(pd.to_numeric, errors="coerce")
+
+    df["biomechanical_prediction"] = MODEL.predict(X)
+    df["biomechanical_score"] = MODEL.decision_function(X)
+
+    if "participant_id" not in df.columns:
+        df["participant_id"] = "UNKNOWN"
+
+    return df
+
+
+def movement_symmetry(df):
+    """100 = perfectly symmetric; mean of knee-ROM and step-time asymmetry."""
+    asym = pd.concat([
+        pd.to_numeric(df["knee_rom_asymmetry_pct"], errors="coerce"),
+        pd.to_numeric(df["step_time_asymmetry_pct"], errors="coerce"),
+    ]).mean()
+
+    if not np.isfinite(asym):
+        return None
+
+    return round(float(np.clip(100.0 - asym, 0.0, 100.0)), 1)
 
 # -----------------------------
 # Home Route
@@ -43,7 +90,8 @@ def home():
 def health():
     return jsonify({
         "status": "ok",
-        "service": "JointCare OA Sentinel API"
+        "service": "JointCare OA Sentinel API",
+        "model_loaded": MODEL is not None
     }), 200
 
 
@@ -80,8 +128,8 @@ def analyze():
         # Load healthy reference
         reference = load_reference(REFERENCE_FILE)
 
-        # Convert incoming camera data to dataframe
-        df = pd.DataFrame(camera_results)
+        # Convert incoming camera data to dataframe and score it
+        df = score_trials(pd.DataFrame(camera_results))
 
         # Perform screening
         screening = screen_trials(df, reference)
@@ -98,12 +146,17 @@ def analyze():
             "success": True,
             "patient_id": record["patient_id"],
 
-            # Flutter UI fields
-            "oa_probability": round(100 - record["screening_score"], 1),
+            # Flutter UI fields.
+            # oa_probability is kept as a key for UI compatibility, but it is
+            # the 0-100 screening risk index (higher = more unusual gait),
+            # NOT a calibrated OA probability.
+            "oa_probability": round(record["screening_score"], 1),
+            "risk_index": round(record["screening_score"], 1),
             "risk_level": record["screening_level"],
-            "knee_stability": round(record["screening_score"], 1),
-            "balance_score": round(record["screening_score"], 1),
-            "symmetry": round(100 - record["abnormal_trial_rate_pct"], 1),
+            "symmetry": movement_symmetry(df),
+            # Not measured by the camera gait model.
+            "knee_stability": None,
+            "balance_score": None,
 
             # Existing API fields
             "screening_level": record["screening_level"],
@@ -114,6 +167,12 @@ def analyze():
             "main_findings": record["main_findings"],
             "note": record["screening_note"]
         }), 200
+
+    except ValueError as e:
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 400
 
     except Exception as e:
         return jsonify({
