@@ -43,6 +43,9 @@ logger = logging.getLogger("oa_api")
 MODEL = joblib.load(MODEL_FILE)
 
 
+MIN_FEATURES_PER_TRIAL = len(FEATURES) // 2
+
+
 def score_trials(df):
     """
     Run the camera biomechanics model on the incoming trials.
@@ -59,6 +62,19 @@ def score_trials(df):
         )
 
     X = df[FEATURES].apply(pd.to_numeric, errors="coerce")
+
+    # The model imputes missing features with training medians, so a trial
+    # with few real measurements would be scored as an "average" person.
+    # Only score trials that carry at least half of the gait features.
+    usable = X.notna().sum(axis=1) >= MIN_FEATURES_PER_TRIAL
+    if not usable.any():
+        raise ValueError(
+            "No trial has enough gait measurements (need at least "
+            f"{MIN_FEATURES_PER_TRIAL} of {len(FEATURES)} features). "
+            "IMU sensor data cannot be scored by the camera gait model."
+        )
+    df = df[usable].copy()
+    X = X[usable]
 
     df["biomechanical_prediction"] = MODEL.predict(X)
     df["biomechanical_score"] = MODEL.decision_function(X)
