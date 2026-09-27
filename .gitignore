@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+OA_Sentinel_Patient_Records.xlsx
+.venv/
