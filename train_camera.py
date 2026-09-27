@@ -1,3 +1,6 @@
+import os
+from pathlib import Path
+
 import pandas as pd
 import joblib
 
@@ -11,9 +14,11 @@ from sklearn.pipeline import Pipeline
 # FILES
 # ============================================
 
-INPUT_FILE = r"C:\OA SENTINEL\OUTPUT\camera_features.csv"
+OUTPUT_DIR = Path(os.environ.get("OA_OUTPUT_DIR", Path(__file__).parent))
 
-MODEL_FILE = r"C:\OA SENTINEL\OUTPUT\camera_biomechanics_model.pkl"
+INPUT_FILE = OUTPUT_DIR / "camera_features.csv"
+
+MODEL_FILE = OUTPUT_DIR / "camera_biomechanics_model.pkl"
 
 
 # ============================================

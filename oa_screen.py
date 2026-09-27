@@ -499,12 +499,14 @@ def screen_trials(
 def append_patient_to_excel(
     patient_info,
     screening,
-    excel_path
+    excel_path,
+    save=True
 ):
     """
     Append one new patient/visit to the Excel file.
 
-    Existing rows are preserved.
+    Existing rows are preserved. With save=False the record is
+    built and returned but nothing is written to disk.
     """
 
     record = {
@@ -562,6 +564,9 @@ def append_patient_to_excel(
         ],
     }
 
+    if not save:
+        return record
+
     path = Path(
         excel_path
     )
@@ -602,6 +607,11 @@ def append_patient_to_excel(
 if __name__ == "__main__":
 
     import argparse
+    import os
+
+    output_dir = Path(
+        os.environ.get("OA_OUTPUT_DIR", Path(__file__).parent)
+    )
 
     parser = argparse.ArgumentParser(
         description=(
@@ -616,17 +626,17 @@ if __name__ == "__main__":
 
     parser.add_argument(
         "--healthy-results",
-        default=r"C:\OA SENTINEL\OUTPUT\camera_results.csv"
+        default=str(output_dir / "camera_results.csv")
     )
 
     parser.add_argument(
         "--patient-results",
-        default=r"C:\OA SENTINEL\OUTPUT\camera_results.csv"
+        default=str(output_dir / "camera_results.csv")
     )
 
     parser.add_argument(
         "--reference",
-        default=r"C:\OA SENTINEL\OUTPUT\oa_healthy_reference.json"
+        default=str(output_dir / "oa_healthy_reference.json")
     )
 
     parser.add_argument(
@@ -636,10 +646,7 @@ if __name__ == "__main__":
 
     parser.add_argument(
         "--patient-excel",
-        default=(
-            r"C:\OA SENTINEL\OUTPUT"
-            r"\OA_Sentinel_Patient_Records.xlsx"
-        )
+        default=str(output_dir / "OA_Sentinel_Patient_Records.xlsx")
     )
 
     parser.add_argument(

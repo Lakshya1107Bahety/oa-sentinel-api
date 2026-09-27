@@ -1,4 +1,5 @@
 import json
+import os
 import re
 from pathlib import Path
 
@@ -11,8 +12,16 @@ from scipy.signal import find_peaks
 # SETTINGS
 # ============================================================
 
-OPENPOSE_ROOT = Path(r"C:\OA SENTINEL\DATA\ORIGINAL\open pose\Open pose dat")
-OUTPUT_DIR = Path(r"C:\OA SENTINEL\OUTPUT")
+BASE = Path(__file__).parent
+
+# Raw OpenPose dataset is not in the repo. Point OA_OPENPOSE_ROOT at it,
+# e.g. set OA_OPENPOSE_ROOT=C:\OA SENTINEL\DATA\ORIGINAL\open pose\Open pose dat
+OPENPOSE_ROOT = Path(
+    os.environ.get("OA_OPENPOSE_ROOT", BASE / "data" / "openpose")
+)
+
+# Outputs go next to this file (where oa_api.py reads them) unless overridden.
+OUTPUT_DIR = Path(os.environ.get("OA_OUTPUT_DIR", BASE))
 
 # OpenPose JSON files are one frame each.
 # Change this only if the dataset uses a different frame rate.

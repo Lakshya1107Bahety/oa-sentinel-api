@@ -1,10 +1,15 @@
+import os
+from pathlib import Path
+
 import pandas as pd
 import joblib
 
 
-INPUT_FILE = r"C:\OA SENTINEL\OUTPUT\camera_features.csv"
+OUTPUT_DIR = Path(os.environ.get("OA_OUTPUT_DIR", Path(__file__).parent))
 
-MODEL_FILE = r"C:\OA SENTINEL\OUTPUT\camera_biomechanics_model.pkl"
+INPUT_FILE = OUTPUT_DIR / "camera_features.csv"
+
+MODEL_FILE = OUTPUT_DIR / "camera_biomechanics_model.pkl"
 
 
 FEATURES = [
@@ -49,16 +54,13 @@ df["biomechanical_score"] = anomaly_score
 
 
 # Save
-output1 = r"C:\OA_Sentinel\output\camera_results.csv"
-output2 = r"C:\OA SENTINEL\OUTPUT\camera_results.csv"
+output = OUTPUT_DIR / "camera_results.csv"
 
-df.to_csv(output1, index=False)
-df.to_csv(output2, index=False)
+df.to_csv(output, index=False)
 
 print("Results saved:")
 
-print(output1)
-print(output2)
+print(output)
 
 print()
 
