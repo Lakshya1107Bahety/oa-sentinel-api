@@ -3,6 +3,9 @@ OA SENTINEL — oa_api.py
 JointCare Flask Backend for OA Screening
 """
 
+import logging
+import os
+import threading
 from pathlib import Path
 import joblib
 import numpy as np
@@ -26,6 +29,14 @@ BASE = Path(__file__).parent
 REFERENCE_FILE = BASE / "oa_healthy_reference.json"
 PATIENT_EXCEL = BASE / "OA_Sentinel_Patient_Records.xlsx"
 MODEL_FILE = BASE / "camera_biomechanics_model.pkl"
+
+# The Excel log is a local convenience only. Hosts like Render wipe the
+# disk on every deploy/restart, so durable records live in the main
+# backend's MongoDB. Set SAVE_PATIENT_EXCEL=0 in production.
+SAVE_PATIENT_EXCEL = os.environ.get("SAVE_PATIENT_EXCEL", "1") != "0"
+EXCEL_LOCK = threading.Lock()
+
+logger = logging.getLogger("oa_api")
 
 # Isolation Forest pipeline (imputer -> scaler -> IsolationForest).
 # Loaded once at startup; must match the scikit-learn version it was trained with.
@@ -134,12 +145,24 @@ def analyze():
         # Perform screening
         screening = screen_trials(df, reference)
 
-        # Save patient record
-        record = append_patient_to_excel(
-            patient,
-            screening,
-            PATIENT_EXCEL
-        )
+        # Build the patient record; optionally append it to the Excel log.
+        # A failed write must not fail the screening itself.
+        try:
+            with EXCEL_LOCK:
+                record = append_patient_to_excel(
+                    patient,
+                    screening,
+                    PATIENT_EXCEL,
+                    save=SAVE_PATIENT_EXCEL
+                )
+        except Exception:
+            logger.exception("Could not write patient Excel log")
+            record = append_patient_to_excel(
+                patient,
+                screening,
+                PATIENT_EXCEL,
+                save=False
+            )
 
         # Return results for Flutter UI
         return jsonify({
